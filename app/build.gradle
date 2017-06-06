@@ -28,4 +28,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    // 使用Mockito，你需要添加此条依赖库
+    testCompile "org.mockito:mockito-core:1.+"
+
+    // 如果Mockito 用于 Android instrumentation tests，那么需要你添加以下三条依赖库
+    androidTestCompile 'org.mockito:mockito-core:1.+'
+    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
 }

@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * 一个简单的使用JUnit4完成的单元测试
  * JUnit4 unit tests for the calculator logic.
  */
 public class CalculatorTest {
