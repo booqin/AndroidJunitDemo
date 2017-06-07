@@ -26,7 +26,7 @@ import android.content.SharedPreferences;
  * @Version
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SharedPreferencesHelperTest {
+public class SharedPreferencesHelperWithMockTest {
 
 
     private static final String TEST_NAME = "Test name";

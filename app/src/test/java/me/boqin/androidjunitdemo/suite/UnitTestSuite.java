@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 
 import me.boqin.androidjunitdemo.CalculatorTest;
 import me.boqin.androidjunitdemo.CalculatorWithParameterizedTest;
-import me.boqin.androidjunitdemo.SharedPreferencesHelperTest;
+import me.boqin.androidjunitdemo.SharedPreferencesHelperWithMockTest;
 
 /**
  * 通过Suite来运行多个Test类
@@ -15,6 +15,6 @@ import me.boqin.androidjunitdemo.SharedPreferencesHelperTest;
  * @Version
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({CalculatorTest.class, CalculatorWithParameterizedTest.class, SharedPreferencesHelperTest.class})
+@Suite.SuiteClasses({CalculatorTest.class, CalculatorWithParameterizedTest.class, SharedPreferencesHelperWithMockTest.class})
 public class UnitTestSuite {
 }
