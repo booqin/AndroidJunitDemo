@@ -41,7 +41,7 @@ which lets you create more flexible assertions using the Hamcrest matcher APIs.
 - Suit
 　　
 
-对于其它的注解，可以通过查看其[官网](http://junit.org/junit4/)来进一步学习。  
+对于其它的注解，可以通过查看其[junit4官网](http://junit.org/junit4/)来进一步学习。  
 　　在test下添加测试类，对于需要进行测试的方法添加@Test注解，在该方法中使用assert进行判断，为了使assert更加直观，方便，可以使用[Hamcrest library](https://github.com/hamcrest)，通过使用hamcrest的匹配工具，可以让你更灵活的进行测试。 以下是一个最简单的测试类实现：
 ```java
 public class CalculatorTest {
@@ -111,8 +111,10 @@ public class CalculatorWithParameterizedTest {
 
 }
 ```
-　　现在目录下存在如下两个Test类：
-[]
+
+现在目录下存在如下两个Test类：
+
+![多个测试类](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/junit_suite.png)
 
 如果我们需要同时运行两个或多个Test类怎么办？JUnit提供了Suite注解，在对应的测试目录下创建一个空Test类，该类上添加如下注解：
 
@@ -299,8 +301,6 @@ public class SharedPreferencesHelperWithMockTest {
 这种情况在项目中很常见，以笔者经验，建议单元测试时把所有情况都验证一遍，确保没有遗漏。
 
 ## 扩展知识
-
-# android中的单元测试
 
 
 # 问题
