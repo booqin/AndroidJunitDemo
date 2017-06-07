@@ -2,14 +2,13 @@ package me.boqin.androidjunitdemo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
@@ -17,6 +16,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 /**
  * 在androidTest中测试需要android库支持的单元
@@ -25,6 +25,7 @@ import android.support.test.InstrumentationRegistry;
  *
  * @Version
  */
+@RunWith(AndroidJUnit4.class)
 public class SharedPreferencesHelperTest {
 
     private static final String TEST_NAME = "Test name";
