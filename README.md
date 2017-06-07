@@ -9,6 +9,7 @@
 - module-name/src/androidTest/java/.  
 　　该目录下的测试代码需要运行在android设备或模拟器下面，因此可以使用android系统的API，速度较慢。  
 　　
+![目录](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/android_unit_dir.png)
 
 以上两个目录分别执行在JUnit和AndroidJUnitRunner的测试运行环境，两者主要的区别在于是否需要android系统API的依赖。
 　　由于android中的大量代码依赖android系统的库，
