@@ -34,8 +34,10 @@ which lets you create more flexible assertions using the Hamcrest matcher APIs.
 ### 1.手动运行
 　　在Android Studio中，对指定的测试类右键，选择对应的RUN或DEBUG操作选项即可运行，如下图：
 ![运行选项](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/run_junit_test0.png)
+
 　　图中第三个为覆盖测试，即运行所有的test下的单元测试，并显示单元测试的覆盖率。如果需要保存测试结果，可以在结果框中点击Export Test Results按钮:
 ![运行选项](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/run_junit_test1.png)
+
 　　结果会被保存到项目的目录下，可以通过浏览器打开查看：
 ![运行选项](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/run_junit_test2.png)
 
