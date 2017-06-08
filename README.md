@@ -1,5 +1,5 @@
 # 前言
-　　本文将介绍在Android Studio中，android单元测试的介绍和实现。相关代码托管在github上的[AndroidJunitDemo](https://github.com/booqin/AndroidJunitDemo)中，涉及到的用例代码收集于google官方提供的测试用例[android-testing](https://github.com/googlesamples/android-testing)，同时进行了简化和修改。你可以从该demo中学习单元测试简单的使用。在工程中，包含两个模块，一个实现计算器功能的CalculationActivity，另外一个是PersonlInfoActivity，该类可以编辑姓名，邮箱和生日等信息，并保存到SharePreferences中，同时提供了两个模块的单元测试。
+　　本文将介绍在Android Studio中，android单元测试的介绍和实现。相关代码托管在github上的[AndroidJunitDemo](https://github.com/booqin/AndroidJunitDemo)中，涉及到的用例代码收集于google官方提供的测试用例[android-testing](https://github.com/googlesamples/android-testing)，同时进行了简化和修改。你可以从该demo中学习单元测试简单的使用，在工程中，包含两个模块，一个实现计算器功能的CalculationActivity，另外一个是PersonlInfoActivity，可以编辑姓名，邮箱和生日等信息，并保存到SharePreferences中，同时提供了两个模块的单元测试。
 
 # 单元测试
 　　关于单元测试，在维基百科中，给出了如下定义：
@@ -173,56 +173,6 @@ public class SharedPreferencesHelperTest {
     public void setUp() throws Exception {
         //获取application的context
         mContext = InstrumentationRegistry.getTargetContext();
-        mSharePreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-        mSharedPreferenceEntry = new SharedPreferenceEntry(TEST_NAME, TEST_DATE_OF_BIRTH, TEST_EMAIL);
-        mSharedPreferencesHelper = new SharedPreferencesHelper(mSharePreferences);
-//        mBrokenSharedPreferencesHelper = new SharedPreferencesHelper(mockBrokenMockSharedPreference());
-
-//        mMockSharePreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mMockSharePreferences = Mockito.mock(SharedPreferences.class);
-        mMockBrokenEditor = Mockito.mock(SharedPreferences.Editor.class);
-        when(mMockSharePreferences.edit()).thenReturn(mMockBrokenEditor);
-        when(mMockBrokenEditor.commit()).thenReturn(false);
-        mMockSharedPreferencesHelper = new SharedPreferencesHelper(mMockSharePreferences);
-    }
-
-    @Test
-    public void sharedPreferencesHelper_SavePersonalInformation() throws Exception {
-        assertThat(mSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry), is(true));
-    }
-
-    @Test
-    public void sharedPreferencesHelper_SaveAndReadPersonalInformation() throws Exception {
-        mSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry);
-        SharedPreferenceEntry sharedPreferenceEntry = mSharedPreferencesHelper.getPersonalInfo();
-        assertThat(isEquals(mSharedPreferenceEntry, sharedPreferenceEntry), is(true));
-    }
-
-    ……
-}
-@RunWith(AndroidJUnit4.class)
-public class SharedPreferencesHelperTest {
-
-    private static final String TEST_NAME = "Test name";
-
-    private static final String TEST_EMAIL = "test@email.com";
-
-    private static final Calendar TEST_DATE_OF_BIRTH = Calendar.getInstance();
-
-    private SharedPreferenceEntry mSharedPreferenceEntry;
-
-    private SharedPreferencesHelper mSharedPreferencesHelper;
-
-    private SharedPreferences mSharePreferences;
-
-    /** 上下文 */
-    private Context mContext;
-    ……
-    @Before
-    public void setUp() throws Exception {
-        //获取application的context
-        mContext = InstrumentationRegistry.getTargetContext();
         //实例化SharedPreferences
         mSharePreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
@@ -258,7 +208,7 @@ public class SharedPreferencesHelperTest {
 }
 ```
 　　在AndroidJUnitRunner中，通过InstrumentationRegistry来获取Context，并实例化SharedPreferences，然后通过依赖注入来完成SharedPreferencesHelper对象的生成。对于AndroidJUnitRunner更详细的介绍，可以参考android官方文档[测试支持库](https://developer.android.google.cn/topic/libraries/testing-support-library/index.html#AndroidJUnitRunner)。
-　　使用AndroidJUnitRunner最大的缺点在于无法在本地JVM运行，直接的结果就是测试速度慢，同时无法执行覆盖测试。所以出现了很多替代方案，比如在设计合理，依赖注入实现的代码，可以使用Mockito来进行本地测试，或者使用第三方测试框架Robolectric等。
+　　使用AndroidJUnitRunner最大的缺点在于无法在本地JVM运行，直接的结果就是测试速度慢，同时无法执行覆盖测试。因此出现了很多替代方案，比如在设计合理，依赖注入实现的代码，可以使用[Mockito](http://site.mockito.org/)来进行本地测试，或者使用第三方测试框架[Robolectric](http://robolectric.org/)等。
 
 ### Mockito
 　　涉及到android依赖的方法的测试，除了在androidTest使用，还可以通过mock来执行本地测试。使用Mock的目的主要有以下两点：
