@@ -43,9 +43,10 @@ public class SharedPreferencesHelperTest {
     /** 上下文 */
     private Context mContext;
 
-    //如果需要扩展类的行为，可以通过mock来实现
+    /** 如果需要扩展类的行为，可以通过mock来实现 */
     private SharedPreferencesHelper mMockSharedPreferencesHelper;
 
+    /** mock操作，用于模拟失败的操作 */
     @Mock
     SharedPreferences mMockSharePreferences;
 
@@ -56,13 +57,14 @@ public class SharedPreferencesHelperTest {
     public void setUp() throws Exception {
         //获取application的context
         mContext = InstrumentationRegistry.getTargetContext();
+        //实例化SharedPreferences
         mSharePreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         mSharedPreferenceEntry = new SharedPreferenceEntry(TEST_NAME, TEST_DATE_OF_BIRTH, TEST_EMAIL);
+        //实例化SharedPreferencesHelper，依赖注入SharePreferences
         mSharedPreferencesHelper = new SharedPreferencesHelper(mSharePreferences);
-//        mBrokenSharedPreferencesHelper = new SharedPreferencesHelper(mockBrokenMockSharedPreference());
 
-//        mMockSharePreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        //以下是在mock的相关操作，模拟commit失败
         mMockSharePreferences = Mockito.mock(SharedPreferences.class);
         mMockBrokenEditor = Mockito.mock(SharedPreferences.Editor.class);
         when(mMockSharePreferences.edit()).thenReturn(mMockBrokenEditor);
@@ -70,11 +72,16 @@ public class SharedPreferencesHelperTest {
         mMockSharedPreferencesHelper = new SharedPreferencesHelper(mMockSharePreferences);
     }
 
+    /**
+     * 测试保存数据是否成功
+     */
     @Test
     public void sharedPreferencesHelper_SavePersonalInformation() throws Exception {
         assertThat(mSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry), is(true));
     }
-
+    /**
+     * 测试保存数据，然后获取数据是否成功
+     */
     @Test
     public void sharedPreferencesHelper_SaveAndReadPersonalInformation() throws Exception {
         mSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry);

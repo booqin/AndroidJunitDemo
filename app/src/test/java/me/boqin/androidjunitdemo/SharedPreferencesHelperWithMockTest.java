@@ -40,6 +40,7 @@ public class SharedPreferencesHelperWithMockTest {
     private SharedPreferenceEntry mSharedPreferenceEntry;
 
 
+    /** Mock变量，使用@Mock注解完成实例化 */
     @Mock
     SharedPreferences mMockSharedPreferences;
 
@@ -59,11 +60,16 @@ public class SharedPreferencesHelperWithMockTest {
         mBrokenSharedPreferencesHelper = new SharedPreferencesHelper(mockBrokenMockSharedPreference());
     }
 
+    /**
+     * 测试保存数据是否成功
+     */
     @Test
     public void sharedPreferencesHelper_SavePersonalInformation() throws Exception {
         assertThat(mSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry), is(true));
     }
-
+    /**
+     * 测试保存数据，然后获取数据是否成功
+     */
     @Test
     public void sharedPreferencesHelper_SaveAndReadPersonalInformation() throws Exception {
         mSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry);
@@ -71,7 +77,9 @@ public class SharedPreferencesHelperWithMockTest {
         assertThat(isEquals(mSharedPreferenceEntry, sharedPreferenceEntry), is(true));
     }
 
-
+    /**
+     * 保存数据失败的相关操作
+     */
     @Test
     public void sharedPreferencesHelper_SavePersonalInformationFailed_ReturnsFalse() {
         // Read personal information from a broken SharedPreferencesHelper
@@ -82,7 +90,8 @@ public class SharedPreferencesHelperWithMockTest {
 
     }
     /**
-     * 编写Mock相关代码
+     * 编写Mock相关代码，代码中mock了SharedPreferences类的getXxx的相关操作，
+     * 均返回SharedPreferenceEntry对象的值，同时在代码中使用到了commit和edit，都需要在方法中进行mock实现
      * Creates a mocked SharedPreferences.
      */
     private SharedPreferences mockSharePreferences(){
