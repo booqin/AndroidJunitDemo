@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.boqin.androidjunitdemo;
+package me.boqin.androidjunitdemo.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,6 +24,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import me.boqin.androidjunitdemo.Calculator;
+import me.boqin.androidjunitdemo.R;
 
 /**
  * {@link android.app.Activity} which contains a simple calculator. Numbers can be entered in the

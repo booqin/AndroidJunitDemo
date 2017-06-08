@@ -27,7 +27,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.junit.runner.RunWith;
 
 import android.support.test.filters.LargeTest;
@@ -35,23 +34,19 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.test.ActivityInstrumentationTestCase2;
-import junit.framework.TestSuite;
+import me.boqin.androidjunitdemo.activity.CalculatorActivity;
 
 /**
  * 基于Espresso的UI测试
  * JUnit4 Ui Tests for {@link CalculatorActivity} using the {@link AndroidJUnitRunner}.
  * This class uses the JUnit4 syntax for tests.
- * <p>
- * With the new AndroidJUnit runner you can run both JUnit3 and JUnit4 tests in a single test
- * suite. The {@link AndroidRunnerBuilder} which extends JUnit's
- * {@link AllDefaultPossibilitiesBuilder} will create a single {@link
- * TestSuite} from all tests and run them.
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class CalculatorInstrumentationTest {
 
     /**
+     * 在测试中运行Activity
      * A JUnit {@link Rule @Rule} to launch your activity under test. This is a replacement
      * for {@link ActivityInstrumentationTestCase2}.
      * <p>
@@ -69,7 +64,9 @@ public class CalculatorInstrumentationTest {
     @Test
     public void noOperandShowsComputationError() {
         final String expectedResult = mActivityRule.getActivity().getString(R.string.computationError);
+        //执行+按钮点击事件
         onView(withId(R.id.operation_add_btn)).perform(click());
+        //判断结果是否显示为Error
         onView(withId(R.id.operation_result_text_view)).check(matches(withText(expectedResult)));
     }
 
@@ -102,16 +99,16 @@ public class CalculatorInstrumentationTest {
 
     private void performOperation(int btnOperationResId, String operandOne,
             String operandTwo, String expectedResult) {
-        // Type the two operands in the EditText fields
+        // 指定输入框中输入文本，同时关闭键盘
         onView(withId(R.id.operand_one_edit_text)).perform(typeText(operandOne),
                 closeSoftKeyboard());
         onView(withId(R.id.operand_two_edit_text)).perform(typeText(operandTwo),
                 closeSoftKeyboard());
 
-        // Click on a given operation button
+        // 获取特定按钮执行点击事件
         onView(withId(btnOperationResId)).perform(click());
 
-        // Check the expected test is displayed in the Ui
+        // 获取文本框中显示的结果
         onView(withId(R.id.operation_result_text_view)).check(matches(withText(expectedResult)));
     }
 

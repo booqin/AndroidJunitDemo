@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">AndroidJUnitDemo</string>
+    <!-- Calculator -->
     <string name="type_operand_one_hint">Type Operand 1</string>
     <string name="type_operant_two_hint">Type Operand 2</string>
     <string name="add_operation_text">Add</string>
@@ -7,4 +8,13 @@
     <string name="div_operation_text">Div</string>
     <string name="mul_operation_text">Mul</string>
     <string name="computationError">Error</string>
+    <!-- PersonalInformation -->
+    <string name="name_label">Your name:</string>
+    <string name="dob_label">Your date of birth:</string>
+    <string name="email_label">Your Email address:</string>
+    <string name="settings_title">My Settings</string>
+    <string name="save">Save</string>
+    <string name="revert">Revert</string>
+    <string name="name_hint">Enter your name</string>
+    <string name="email_hint">Enter your Email</string>
 </resources>

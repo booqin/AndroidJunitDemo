@@ -1,5 +1,5 @@
 # 前言
-　　本文将介绍在Android Studio中，android单元测试的介绍和实现。相关代码托管在github上的AndroidJunitDemo中，涉及到的用例代码收集于google官方提供的测试用例android-testing，同时进行了简化和修改。你可以从该demo中学习单元测试简单的使用。
+　　本文将介绍在Android Studio中，android单元测试的介绍和实现。相关代码托管在github上的[AndroidJunitDemo](https://github.com/booqin/AndroidJunitDemo)中，涉及到的用例代码收集于google官方提供的测试用例[android-testing](https://github.com/googlesamples/android-testing)，同时进行了简化和修改。你可以从该demo中学习单元测试简单的使用。
 
 # 单元测试
 　　关于单元测试，在维基百科中，给出了如下定义：
@@ -29,6 +29,7 @@
 　　
 
 关于单元测试框架的选择，可以参考下图：
+
 ![android单元测试](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/android_unit_test.png)
 
 ### JUnit4
@@ -131,6 +132,7 @@ public class CalculatorWithParameterizedTest {
 ```
 
 现在目录下存在如下两个Test类：
+
 ![多个测试类](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/junit_suite.png)
 
 如果我们需要同时运行两个或多个Test类怎么办？JUnit提供了Suite注解，在对应的测试目录下创建一个空Test类，如Demo里的_UnitTestSuite_，该类上添加如下注解：
@@ -332,8 +334,46 @@ public class SharedPreferencesHelperWithMockTest {
 ```
 
 ### Espresso
-　　Espresso是官方提供了UI测试框架，严格意义上来说，已经不属于单元测试的范畴了。
+　　在Demo中，除了单元测试的用例，还提供了一个CalculatorInstrumentationTest测试类，该类使用Espresso，一个官方提供了UI测试框架。注意，UI测试不属于单元测试的范畴。通过Espresso的使用，可以编写简洁、运行可靠的自动化UI测试。详细的使用可以参考[测试支持库](https://developer.android.google.cn/topic/libraries/testing-support-library/index.html#UIAutomator)中关于Espresso的使用介绍。
+```java
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class CalculatorInstrumentationTest {
 
+    /**
+     * 在测试中运行Activity
+     * A JUnit {@link Rule @Rule} to launch your activity under test. This is a replacement
+     * for {@link ActivityInstrumentationTestCase2}.
+     * <p>
+     * Rules are interceptors which are executed for each test method and will run before
+     * any of your setup code in the {@link Before @Before} method.
+     * <p>
+     * {@link ActivityTestRule} will create and launch of the activity for you and also expose
+     * the activity under test. To get a reference to the activity you can use
+     * the {@link ActivityTestRule#getActivity()} method.
+     */
+    @Rule
+    public ActivityTestRule<CalculatorActivity> mActivityRule = new ActivityTestRule<>(
+            CalculatorActivity.class);
+    ……
+    private void performOperation(int btnOperationResId, String operandOne,
+            String operandTwo, String expectedResult) {
+        // 指定输入框中输入文本，同时关闭键盘
+        onView(withId(R.id.operand_one_edit_text)).perform(typeText(operandOne),
+                closeSoftKeyboard());
+        onView(withId(R.id.operand_two_edit_text)).perform(typeText(operandTwo),
+                closeSoftKeyboard());
+
+        // 获取特定按钮执行点击事件
+        onView(withId(btnOperationResId)).perform(click());
+
+        // 获取文本框中显示的结果
+        onView(withId(R.id.operation_result_text_view)).check(matches(withText(expectedResult)));
+    }
+
+}
+```
+你可以运行CalculatorInstrumentationTest测试类，会有一个直观的认识。
 ## 运行单元测试
 　　在Android Studio中，可以通过以下两种方式运行单元测试：
 - 手动运行
@@ -341,16 +381,20 @@ public class SharedPreferencesHelperWithMockTest {
 
 ### 1.手动运行
 　　在Android Studio中，对指定的测试类右键，选择对应的RUN或DEBUG操作选项即可运行，如下图：
+
 ![运行选项](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/run_junit_test0.png)
 
 　　图中第三个为覆盖测试，即运行所有的test下的单元测试，并显示单元测试的覆盖率。如果需要保存测试结果，可以在结果框中点击Export Test Results按钮:
+
 ![运行选项](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/run_junit_test1.png)
 
 　　结果会被保存到项目的目录下，可以通过浏览器打开查看：
+
 ![运行选项](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/run_junit_test2.png)
 
 ### 2.指令运行
 　　在Terminal输入_gradle testDebugUnitTest_或_gradle testReleaseUnitTest_指令来分别运行debug和release版本的unit testing，在执行的结果可以在_xxx\project\app\build\reports\tests\testReleaseUnitTest_中查看：
+
 ![运行选项](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/run_junit_test3.png)
 
 # 其它
@@ -358,15 +402,17 @@ public class SharedPreferencesHelperWithMockTest {
 ## 关于异步操作的单元测试
 　　在实际的android开发过程中，经常涉及到异步操作，比如网络请求，Rxjava的线程调度等。在单元测试中，往往测试方法执行往了，异步操作还没介绍，这就导致了无法顺利的执行单元测试操作。其解决方法可以提供CountDownLatch类来阻塞测试方法的线程，当异步操作完成后（通过回调）来唤醒继续执行测试，获取结果。其实对于网络请求这种操作应该使用Mock来替代，因为你的单元测试的结果不应受网络的影响，不需要关注网络是否正常，服务器是否崩溃，而应该把关注点放在单元本身的操作。
 ## 单元测试，集成测试，UI测试
-　　UI测试是测试到交互和视觉，以及操作的结果是否符合预期。可以通过Espresso，UI Automator等框架，或者人工测试。
-　　集成测试是基于单元测试，将多个单元测试组装起来进行测试，实际测试往往会运行慢，依赖过多导致集成测试非常费时。
-　　单元测试仅针对最小单元，在面向对象中，单元指的是方法，包括基类（超类）、抽象类、或者派生类（子类）中的方法。
-　　三者的在实际应用中可以通过Test Pyramid（Martin Fowler的总结）来衡量：
+- UI测试是测试到交互和视觉，以及操作的结果是否符合预期。可以通过Espresso，UI Automator等框架，或者人工测试。
+- 集成测试是基于单元测试，将多个单元测试组装起来进行测试，实际测试往往会运行慢，依赖过多导致集成测试非常费时。
+- 单元测试仅针对最小单元，在面向对象中，单元指的是方法，包括基类（超类）、抽象类、或者派生类（子类）中的方法。
+
+三者的在实际应用中可以通过Test Pyramid（Martin Fowler的总结）来衡量：
+
 ![Test Pyramid](https://github.com/booqin/AndroidJunitDemo/raw/master/capture/test-pyramid.png)
 
-　　所以对于测试，在开放过程中，我们（开放者）需要把更多的精力放在单元测试上。
+　　所以对于测试，在开放过程中，我们（开发者）需要把更多的精力放在单元测试上。
 
-## 扩展阅读
+# 扩展阅读
 - android关于测试的官方文档[Testing Apps on Android](https://developer.android.google.cn/training/testing/index.html)
 - 对于UI测试，google还提供了一个[UI Automator](https://developer.android.google.cn/training/testing/ui-testing/uiautomator-testing.html)测试框架
 - 关于单元测试，[小创作](http://chriszou.com/) 的系列文章可以帮助你更好的学习和使用相关技术
