@@ -1,5 +1,5 @@
 # 前言
-　　本文将介绍在Android Studio中，android单元测试的介绍和实现。相关代码托管在github上的[AndroidJunitDemo](https://github.com/booqin/AndroidJunitDemo)中，涉及到的用例代码收集于google官方提供的测试用例[android-testing](https://github.com/googlesamples/android-testing)，同时进行了简化和修改。你可以从该demo中学习单元测试简单的使用。
+　　本文将介绍在Android Studio中，android单元测试的介绍和实现。相关代码托管在github上的[AndroidJunitDemo](https://github.com/booqin/AndroidJunitDemo)中，涉及到的用例代码收集于google官方提供的测试用例[android-testing](https://github.com/googlesamples/android-testing)，同时进行了简化和修改。你可以从该demo中学习单元测试简单的使用。在工程中，包含两个模块，一个实现计算器功能的CalculationActivity，另外一个是PersonlInfoActivity，该类可以编辑姓名，邮箱和生日等信息，并保存到SharePreferences中，同时提供了两个模块的单元测试。
 
 # 单元测试
 　　关于单元测试，在维基百科中，给出了如下定义：
