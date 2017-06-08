@@ -22,6 +22,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 /**
+ * TODO 编写单元测试
  * An Email format validator for {@link android.widget.EditText}.
  */
 public class EmailValidator implements TextWatcher {
